@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1074294349951",
+    "project_id": "smart-quiz-72ead",
+    "storage_bucket": "smart-quiz-72ead.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074294349951:android:a90908e3131f716a6bdf4a",
+        "android_client_info": {
+          "package_name": "com.example.smart_quiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCslVsTBq4NJoknmgieNWVdD2eaY5JKGNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
