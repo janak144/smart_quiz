@@ -108,6 +108,7 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
           ),
         ],
       ),
+
       body: Column(
         children: [
           Padding(
@@ -129,6 +130,7 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
               },
             ),
           ),
+
           Padding(
             padding: EdgeInsets.all(12),
             child: DropdownButtonFormField<String>(
@@ -175,7 +177,7 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
                 if (snapshot.hasError) {
                   return Center(child: Text("Error : ${snapshot.error}"));
                 }
-                if (snapshot.hasData) {
+                if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: AppTheme.primaryColor,

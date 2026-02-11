@@ -157,7 +157,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             return Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text("An error occurred"));
+            return Center(child: Text("An error occurred ${snapshot.error}"));
           }
           final Map<String, dynamic> stats = snapshot.data!;
           final List<dynamic> categoryData = stats['categoryData'];
@@ -192,7 +192,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       Expanded(
                         child: _buildStateCard(
                           'Total Categories',
-                          stats['totlaCategories'].toString(),
+                          stats['totalCategories'].toString(),
                           Icons.category_rounded,
                           AppTheme.primaryColor,
                         ),
@@ -201,7 +201,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       Expanded(
                         child: _buildStateCard(
                           'Total Quizzes',
-                          stats['totlaQuizzes'].toString(),
+                          stats['totalQuizzes'].toString(),
                           Icons.quiz_rounded,
                           AppTheme.secondaryColor,
                         ),
@@ -232,6 +232,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                           ],
                         ),
                         SizedBox(height: 20),
+                        /*
                         ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -299,6 +300,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                             );
                           },
                         ),
+                      */
+                        //2:15:12 error in above code
                       ],
                     ),
                   ),
