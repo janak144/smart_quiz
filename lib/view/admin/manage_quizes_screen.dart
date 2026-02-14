@@ -4,10 +4,12 @@ import 'package:smart_quiz/model/category.dart';
 import 'package:smart_quiz/model/quiz.dart';
 import 'package:smart_quiz/theme/theme.dart';
 import 'package:smart_quiz/view/admin/add_quiz_screen.dart';
+import 'package:smart_quiz/view/admin/edit_quiz_screen.dart';
 
 class ManagesQuizesScreen extends StatefulWidget {
   final String? categoryId;
-  const ManagesQuizesScreen({super.key, this.categoryId});
+  final String? categoryName;
+  const ManagesQuizesScreen({super.key, this.categoryId, this.categoryName});
 
   @override
   State<ManagesQuizesScreen> createState() => _ManagesQuizesScreenState();
@@ -99,8 +101,10 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      AddQuizScreen(categoryId: widget.categoryId),
+                  builder: (context) => AddQuizScreen(
+                    categoryId: widget.categoryId,
+                    categoryName: widget.categoryName,
+                  ),
                 ),
               );
             },
@@ -222,6 +226,7 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
                               MaterialPageRoute(
                                 builder: (context) => AddQuizScreen(
                                   categoryId: widget.categoryId,
+                                  categoryName: widget.categoryName,
                                 ),
                               ),
                             );
@@ -322,7 +327,11 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
     Quiz quiz,
   ) async {
     if (value == "edit") {
-      //Navigator.push(context, MaterialPageRoute(builder: builder)=>EditQuizScreen())
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EditQuizScreen(quiz: quiz)),
+        //run chack 3:02:00
+      );
     } else if (value == "delete") {
       final confirm = await showDialog(
         context: context,
