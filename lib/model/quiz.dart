@@ -37,7 +37,7 @@ class Quiz {
     return {
       'title': title,
       'categoryId': categoryId,
-      'tieLimit': timeLimit,
+      'timeLimit': timeLimit,
       'questions': questions.map((e) => e.toMap()).toList(),
       'updatedAt': DateTime.now(),
     };

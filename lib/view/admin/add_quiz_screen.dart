@@ -263,7 +263,7 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                     }
                     return null;
                   },
-                ), // chack runn 2:37
+                ),
                 SizedBox(height: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,7 +319,7 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                                       icon: Icon(
                                         Icons.delete,
                                         color: Colors.redAccent,
-                                      ), //2:42 chack run
+                                      ),
                                     ),
                                 ],
                               ),
@@ -417,7 +417,7 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                                 ),
                         ),
                       ),
-                    ), //Run and chack 2:50:00
+                    ),
                   ],
                 ),
               ],

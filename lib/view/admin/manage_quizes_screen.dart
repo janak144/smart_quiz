@@ -330,7 +330,6 @@ class _ManagesQuizesScreenState extends State<ManagesQuizesScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => EditQuizScreen(quiz: quiz)),
-        //run chack 3:02:00
       );
     } else if (value == "delete") {
       final confirm = await showDialog(
