@@ -33,13 +33,14 @@ class Quiz {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({bool isUpdate = false}) {
     return {
       'title': title,
       'categoryId': categoryId,
       'timeLimit': timeLimit,
       'questions': questions.map((e) => e.toMap()).toList(),
-      'updatedAt': DateTime.now(),
+      if (isUpdate) 'updatedAt': DateTime.now(),
+      'createdAt': createdAt,
     };
   }
 
@@ -48,6 +49,7 @@ class Quiz {
     String? categoryId,
     int? timeLimit,
     List<Question>? questions,
+    DateTime? createdAt,
   }) {
     return Quiz(
       id: id,
@@ -56,7 +58,6 @@ class Quiz {
       timeLimit: timeLimit ?? this.timeLimit,
       questions: questions ?? this.questions,
       createdAt: createdAt,
-      updatedAt: DateTime.now(),
     );
   }
 }

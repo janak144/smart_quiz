@@ -151,6 +151,12 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
               : "Add Quiz",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            onPressed: _isLoading ? null : _saveQuiz,
+            icon: Icon(Icons.save, color: AppTheme.primaryColor),
+          ),
+        ],
       ),
       body: Form(
         key: _fromKey,

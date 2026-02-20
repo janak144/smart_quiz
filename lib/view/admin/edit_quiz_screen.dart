@@ -150,7 +150,222 @@ class _EditQuizScreenState extends State<EditQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(backgroundColor: AppTheme.backgroundColor));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.backgroundColor,
+        title: Text("Edit Quiz", style: TextStyle(fontWeight: FontWeight.bold)),
+        actions: [
+          IconButton(
+            onPressed: _isLoading ? null : _updateQuiz,
+            icon: Icon(Icons.save, color: AppTheme.primaryColor),
+          ),
+        ],
+      ),
+      body: Form(
+        key: _fromKey,
+        child: ListView(
+          padding: EdgeInsets.all(20),
+          children: [
+            Text(
+              "Quiz Details",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.textPrimaryColor,
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.symmetric(vertical: 20),
+                labelText: "Quiz Title",
+                hintText: "Enter quiz title",
+                prefixIcon: Icon(Icons.title, color: AppTheme.primaryColor),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter quiz title";
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              controller: _timeLimitController,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.symmetric(vertical: 20),
+                labelText: "Time Limit (in minutes)",
+                hintText: "Enter Time limit",
+                prefixIcon: Icon(Icons.timer, color: AppTheme.primaryColor),
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter time Limit";
+                }
+                final number = int.tryParse(value);
+                if (number == null || number <= 0) {
+                  return "Please enter a valid time limit";
+                }
+                return null;
+              },
+            ), //3:18 run check
+            SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Question',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textPrimaryColor,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: _addQuestion,
+                      label: Text("Add Question"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                ..._questionsItems.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final QuestionFormItem question = entry.value;
+                  return Card(
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Question ${index + 1}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.primaryColor,
+                                ),
+                              ),
+                              if (_questionsItems.length > 1)
+                                IconButton(
+                                  onPressed: () {
+                                    _removeQuestion(index);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          TextFormField(
+                            controller: question.questionController,
+                            decoration: InputDecoration(
+                              labelText: "Question Title",
+                              hintText: "Enter question",
+                              prefixIcon: Icon(
+                                Icons.question_answer,
+                                color: AppTheme.primaryColor,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please Enter question";
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 16),
+                          ...question.optionsControllers.asMap().entries.map((
+                            entry,
+                          ) {
+                            final optionIndex = entry.key;
+                            final controller = entry.value;
+
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 8),
+                              child: Row(
+                                children: [
+                                  Radio<int>(
+                                    activeColor: AppTheme.primaryColor,
+                                    value: optionIndex,
+                                    groupValue: question.correctOptionIndex,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        question.correctOptionIndex = value!;
+                                      });
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: controller,
+                                      decoration: InputDecoration(
+                                        labelText: "Option ${optionIndex + 1}",
+                                        hintText: "Enter Option",
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please Enter option";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+                SizedBox(height: 32),
+                Center(
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _updateQuiz,
+                      child: _isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Update Quiz",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  ),
+                ), //3:20 run check
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
-//3:15
