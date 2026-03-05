@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:smart_quiz/model/quiz.dart';
 import 'package:smart_quiz/theme/theme.dart';
 
@@ -92,8 +93,209 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     );
   }
 
+  IconData _getPerformanceIcon(double scroe) {
+    if (scroe >= 0.9) return Icons.emoji_events;
+    if (scroe >= 0.8) return Icons.star;
+    if (scroe >= 0.6) return Icons.thumb_up;
+    if (scroe >= 0.4) return Icons.trending_up;
+
+    return Icons.refresh;
+  }
+
+  Color _getScoreColor(double score) {
+    if (score >= 0.8) return Colors.green;
+    if (score >= 0.5) return Colors.orange;
+    return Colors.redAccent;
+  }
+
+  String _getPerformanceMessage(double scroe) {
+    if (scroe >= 0.9) return "Outstanding";
+    if (scroe >= 0.8) return "Great Job!";
+    if (scroe >= 0.6) return "Good Effort";
+    if (scroe >= 0.4) return "Keep Practicing";
+
+    return "Keep Again!";
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    final score = widget.correctAnswers / widget.totalQuestions;
+    final scorePercentage = (score * 100).round();
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    AppTheme.primaryColor,
+                    AppTheme.primaryColor.withOpacity(0.8),
+                  ],
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40),
+                ),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                        ),
+                        Text(
+                          'Quiz Result',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: CircularPercentIndicator(
+                          radius: 100,
+                          lineWidth: 15,
+                          animation: true,
+                          animationDuration: 1500,
+                          percent: score,
+                          center: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${scorePercentage}%',
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                '${widget.correctAnswers / widget.totalQuestions}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
+                              ),
+                            ],
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: Colors.white,
+                          backgroundColor: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                    ],
+                  ).animate().scale(
+                    delay: Duration(milliseconds: 800),
+                    curve: Curves.elasticOut,
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _getPerformanceIcon(score),
+                          color: _getScoreColor(score),
+                          size: 28,
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          _getPerformanceMessage(score),
+                          style: TextStyle(
+                            color: _getScoreColor(score),
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).animate().slideY(
+                    begin: 0.3,
+                    duration: Duration(milliseconds: 500),
+                    delay: Duration(milliseconds: 200),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      "Correct",
+                      widget.correctAnswers.toString(),
+                      Icons.check_circle,
+                      Colors.green,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: _buildStatCard(
+                      "Incorrect",
+                      (widget.totalQuestions - widget.correctAnswers)
+                          .toString(),
+                      Icons.cancel,
+                      Colors.redAccent,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.analytics, color: AppTheme.primaryColor),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
