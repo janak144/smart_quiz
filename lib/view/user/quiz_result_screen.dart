@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:smart_quiz/model/question.dart';
 import 'package:smart_quiz/model/quiz.dart';
 import 'package:smart_quiz/theme/theme.dart';
 
@@ -288,8 +289,83 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                   Row(
                     children: [
                       Icon(Icons.analytics, color: AppTheme.primaryColor),
+                      SizedBox(width: 8),
+                      Text(
+                        "Detailed Analysis",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textPrimaryColor,
+                        ),
+                      ),
                     ],
                   ),
+                  SizedBox(height: 16),
+                  ...widget.quiz.questions.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final question = entry.value;
+                    final selectedAnswer = widget.selectedAnswers[index];
+                    final isCorrect =
+                        selectedAnswer != null &&
+                        selectedAnswer == question.correctOptionIndex;
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 26),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Theme(
+                        data: Theme.of(
+                          context,
+                        ).copyWith(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          leading: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: isCorrect
+                                  ? Colors.green.withOpacity(0.1)
+                                  : Colors.redAccent.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              isCorrect
+                                  ? Icons.check_circle_outline
+                                  : Icons.close,
+                              color: isCorrect
+                                  ? Colors.green
+                                  : Colors.redAccent,
+                              size: 24,
+                            ),
+                          ),
+                          title: Text(
+                            'Question ${index + 1}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textPrimaryColor,
+                            ),
+                          ),
+                          subtitle: Text(
+                            question.text,
+                            style: TextStyle(
+                              color: AppTheme.textSecondaryColor,
+                              fontSize: 14,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          children: [Container(padding: EdgeInsets.all())],
+                        ),
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
