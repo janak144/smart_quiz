@@ -197,7 +197,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                                 ),
                               ),
                               Text(
-                                '${widget.correctAnswers / widget.totalQuestions}',
+                                '${((widget.correctAnswers / widget.totalQuestions) * 100).toInt()}',
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white.withOpacity(0.9),
@@ -361,14 +361,87 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          children: [Container(padding: EdgeInsets.all())],
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.only(
+                                top: 16,
+                                bottom: 16,
+                                right: 5,
+                                left: 20,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    question.text,
+                                    style: TextStyle(
+                                      color: AppTheme.textPrimaryColor,
+                                      fontSize: 18,
+                                    ),
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(height: 20),
+                                  _buildAnswerRow(
+                                    "Your Answer: ",
+                                    selectedAnswer != null
+                                        ? question.options[selectedAnswer]
+                                        : 'Not Answered',
+                                    isCorrect ? Colors.green : Colors.redAccent,
+                                  ),
+                                  SizedBox(height: 12),
+                                  _buildAnswerRow(
+                                    "Correct Answer: ",
+                                    question.options[question
+                                        .correctOptionIndex],
+                                    Colors.green,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                    ).animate().scaleX(
+                      begin: 0.3,
+                      duration: Duration(milliseconds: 300),
+                      delay: Duration(milliseconds: 100 * index),
                     );
-                  }),
+                  }).toList(),
                 ],
               ),
             ),
+            Padding(
+              padding: EdgeInsets.all(24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryColor,
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      icon: Icon(Icons.refresh, size: 24, color: Colors.white),
+                      label: Text(
+                        "Try Again",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 50),
           ],
         ),
       ),

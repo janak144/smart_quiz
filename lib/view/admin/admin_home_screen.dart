@@ -208,110 +208,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       ),
                     ],
                   ),
+
                   SizedBox(height: 24),
                   Card(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(
-                              Icons.pie_chart_rounded,
-                              color: AppTheme.primaryColor,
-                              size: 24,
-                            ),
-                            SizedBox(width: 12),
-                            Text(
-                              "Category Statistics",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        /*
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: categoryData.length,
-                          itemBuilder: (context, index) {
-                            final category = categoryData[index];
-                            final totalQuizzes = categoryData.fold<int>(
-                              0,
-                              (sum, item) => sum + (item['count'] as int),
-                            );
-                            final percentage = totalQuizzes > 0
-                                ? (category['count'] as int) /
-                                      totalQuizzes *
-                                      100
-                                : 0.0;
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 16),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          category['name'] as String,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppTheme.textPrimaryColor,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          "${category['count']} ${(category['count'] as int) == 1 ? 'quiz' : 'quizzes'}",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppTheme.textSecondaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.primaryColor.withOpacity(
-                                        0.1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      '${percentage.toStringAsFixed(1)}%',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppTheme.primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      */
-                        //2:15:12 error in above code
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 24),
-                  Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
+                            SizedBox(width: 10),
                             Icon(
                               Icons.history_rounded,
                               color: AppTheme.primaryColor,
@@ -394,8 +300,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 10),
                         Row(
                           children: [
+                            SizedBox(width: 10),
                             Icon(
                               Icons.speed_rounded,
                               color: AppTheme.primaryColor,
@@ -414,9 +322,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         ),
                         SizedBox(height: 20),
                         GridView.count(
+                          padding: EdgeInsets.all(10),
                           crossAxisCount: 2,
                           shrinkWrap: true,
-
                           mainAxisSpacing: 16,
                           childAspectRatio: 0.9,
                           crossAxisSpacing: 16,
@@ -450,6 +358,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 10),
                       ],
                     ),
                   ),
